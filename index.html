@@ -1,178 +1,61 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Loading...</title>
-  <style>
-    :root{
-      --accent: #00e0ff;
-      --bg: #0f1115;
-      --glass: rgba(255,255,255,0.08);
-      --text: #e8f0ff;
-      --muted: #a6b3c6;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{
-      margin:0;
-      font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: radial-gradient(1200px 800px at 80% -10%, #1b2230 0%, #0f1115 60%, #0b0d12 100%);
-      display:flex; align-items:center; justify-content:center;
-      padding:24px;
-    }
-    .wrap{
-      width: min(1100px, 100%);
-    }
-    header{
-      display:flex; align-items:center; justify-content:space-between;
-      gap:16px; margin-bottom:16px;
-    }
-    .logo{
-      font-weight:700; font-size: clamp(20px, 3vw, 28px);
-      letter-spacing:0.4px
-    }
-    .badge{
-      padding:6px 10px; border-radius:999px; background:var(--glass); color:var(--muted);
-      border:1px solid rgba(255,255,255,.1);
-      font-size:12px;
-    }
-    .grid{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap:16px;
-    }
-    .card{
-      background: var(--glass);
-      backdrop-filter: blur(6px);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: 14px;
-      padding: 16px;
-      min-height: 140px;
-    }
-    .card h3{
-      margin:0 0 10px; font-size: 14px; letter-spacing:0.4px; text-transform:uppercase; color: var(--muted)
-    }
-    .rules ul, .staff ul, .info ul{
-      margin:0; padding-left:16px;
-    }
-    .rules li, .staff li, .info li{ margin:6px 0 }
-    .status{
-      grid-column: span 12;
-      display:flex; align-items:center; gap:16px;
-    }
-    .spinner{
-      width:54px; height:54px; border-radius:999px;
-      border:5px solid rgba(255,255,255,0.15);
-      border-top-color: var(--accent);
-      animation: spin 1s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg) } }
-    .progress{
-      width:100%; height:10px; background: rgba(255,255,255,0.06);
-      border-radius:999px; overflow:hidden; border:1px solid rgba(255,255,255,0.08);
-    }
-    .bar{
-      height:100%; width:0%;
-      background: linear-gradient(90deg, var(--accent), #7df9ff);
-      transition: width .2s ease;
-    }
-    footer{
-      margin-top:16px; color:var(--muted); font-size:12px; text-align:center
-    }
-    .col-4 { grid-column: span 4 }
-    .col-8 { grid-column: span 8 }
-    .col-6 { grid-column: span 6 }
-    @media (max-width: 900px){
-      .col-4, .col-6, .col-8 { grid-column: span 12 }
-      header{flex-direction:column; align-items:flex-start}
-    }
-    a{color:var(--accent); text-decoration:none}
-    a:hover{text-decoration:underline}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Loading…</title>
+<style>
+  body {
+    margin:0; padding:0;
+    font-family: Arial, sans-serif;
+    color:#fff;
+    background: linear-gradient(120deg, #0f1115, #1b2230);
+    display:flex; justify-content:center; align-items:center; height:100vh;
+    flex-direction: column;
+  }
+  h1 { margin:0 0 20px; }
+  .progress { width:80%; background:#222; height:20px; border-radius:10px; overflow:hidden; margin-bottom:10px; }
+  .bar { width:0%; height:100%; background:#00e0ff; transition: width 0.2s; }
+  .info { margin-top:10px; text-align:center; }
+  audio { display:none; }
+</style>
 </head>
 <body>
-  <div class="wrap">
-    <header>
-      <div class="logo">My GMod Server</div>
-      <div class="badge">Connecting to server…</div>
-    </header>
 
-    <section class="grid">
-      <div class="card status">
-        <div class="spinner" aria-hidden="true"></div>
-        <div style="flex:1">
-          <div id="statusText">Preparing world…</div>
-          <div class="progress" aria-label="Loading progress">
-            <div class="bar" id="bar"></div>
-          </div>
-        </div>
-      </div>
+<h1>Joining My GMod Server…</h1>
 
-      <div class="card rules col-4">
-        <h3>Rules</h3>
-        <ul>
-          <li>No prop spam or crashing.</li>
-          <li>No RDM / NLR. Be respectful.</li>
-          <li>Listen to staff. No cheating/exploits.</li>
-        </ul>
-      </div>
+<div class="progress"><div class="bar" id="bar"></div></div>
+<div class="info">
+  <p>Player: <span id="steamid"></span></p>
+  <p>Map: <span id="map"></span></p>
+  <p>Gamemode: <span id="gamemode"></span></p>
+  <p>Players: <span id="players"></span></p>
+</div>
 
-      <div class="card staff col-4">
-        <h3>Staff</h3>
-        <ul>
-          <li>Alice — Admin</li>
-          <li>Bob — Moderator</li>
-          <li>Charlie — Helper</li>
-        </ul>
-      </div>
+<audio autoplay loop>
+  <source src="background.mp3" type="audio/mpeg">
+</audio>
 
-      <div class="card info col-4">
-        <h3>Info</h3>
-        <ul>
-          <li>Map: <span id="mapName">unknown</span></li>
-          <li>Gamemode: <span id="gamemode">sandbox</span></li>
-          <li>Player: <span id="steamid">guest</span></li>
-        </ul>
-      </div>
-    </section>
+<script>
+  // Read URL params
+  const params = new URLSearchParams(window.location.search);
+  document.getElementById('steamid').textContent = params.get('steam') || 'Guest';
+  document.getElementById('map').textContent = params.get('map') || 'Unknown';
+  document.getElementById('gamemode').textContent = params.get('gm') || 'Sandbox';
+  document.getElementById('players').textContent = params.get('players') || '0';
 
-    <footer>
-      &copy; <span id="year"></span> MyServerName • Join our Discord!
-    </footer>
-  </div>
-
-  <script>
-    // Basic cosmetic progress
-    const bar = document.getElementById('bar');
-    const statusText = document.getElementById('statusText');
-    let p = 0;
-    const steps = [
-      'Preparing world…',
-      'Sending client info…',
-      'Mounting content…',
-      'Downloading resources…',
-      'Almost there…'
-    ];
-    let i = 0;
-    const tick = () => {
-      p = Math.min(100, p + Math.random()*7 + 2);
-      bar.style.width = p + '%';
-      if (p > (i+1)*20 && i < steps.length-1) { i++; statusText.textContent = steps[i]; }
-      if (p < 100) requestAnimationFrame(tick);
-      else statusText.textContent = 'Joining server…';
-    };
-    requestAnimationFrame(tick);
-
-    // Show year
-    document.getElementById('year').textContent = new Date().getFullYear();
-
-    // Optional: read URL params like ?steam=...&map=...&gm=...
-    const q = new URLSearchParams(location.search);
-    document.getElementById('steamid').textContent = q.get('steam') || 'guest';
-    document.getElementById('mapName').textContent = q.get('map') || 'unknown';
-    document.getElementById('gamemode').textContent = q.get('gm') || 'sandbox';
-  </script>
+  // Animate progress bar
+  const bar = document.getElementById('bar');
+  let progress = 0;
+  const steps = ['Preparing world…','Mounting content…','Downloading resources…','Almost there…','Joining server…'];
+  let step = 0;
+  function tick(){
+    progress += Math.random()*5 + 2;
+    if(progress > (step+1)*20 && step < steps.length-1){ step++; document.querySelector('h1').textContent = steps[step]; }
+    if(progress < 100){ bar.style.width = progress + '%'; requestAnimationFrame(tick); }
+    else { bar.style.width='100%'; document.querySelector('h1').textContent='Joining server…'; }
+  }
+  tick();
+</script>
 </body>
 </html>
