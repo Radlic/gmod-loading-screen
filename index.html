@@ -3,23 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loading My GMod Server…</title>
-
-<!-- Preload resources for faster loading -->
-<link rel="preload" href="https://radlic.github.io/gmod-loading-screen/background.jpg" as="image">
-<link rel="preload" href="https://radlic.github.io/gmod-loading-screen/background.mp3" as="audio">
-
+<title>Loading Radlic's Hangout Spot…</title>
 <style>
   body {
     margin:0; padding:0;
     font-family: Arial, sans-serif;
     color:#fff;
 
-    /* Fallback gradient */
-    background: linear-gradient(120deg, #0f1115, #1b2230);
-
-    /* Background image with full URL */
-    background: url('https://radlic.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
+    /* Fallback gradient first, then image via absolute HTTPS URL */
+    background: linear-gradient(120deg,#0f1115,#1b2230),
+                url('https://username.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
     background-size: cover;
 
     display:flex; justify-content:center; align-items:center; height:100vh;
@@ -48,14 +41,12 @@
 
   footer { margin-top:20px; text-align:center; color:#ccc; font-size:0.9em; }
 
-  audio { display:none; }
-
   @media(max-width:600px){ .grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
-<h1 id="loadingText">Joining My Radlic's Hangout Spot…</h1>
+<h1 id="loadingText">Joining Radlic's Hangout Spot…</h1>
 
 <div class="grid">
   <div class="card">
@@ -71,8 +62,8 @@
   <div class="card">
     <h2>Staff</h2>
     <ul>
-      <li>Radlic — Owner</li>
-      <li>ALDUMGAMES — Super Admin</li>
+      <li>Radlic - Owner</li>
+      <li>ALDUMGAMES - Super Admin</li>
     </ul>
   </div>
 
@@ -90,34 +81,21 @@
 
 <footer>&copy; <span id="year"></span> Radlic's Hangout Spot • </footer>
 
-<!-- Your uploaded music with full URL -->
-<audio preload="auto" autoplay loop>
-  <source src="https://radlic.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
+<!-- Audio using absolute HTTPS URL -->
+<audio id="bgmusic" loop>
+  <source src="https://username.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
 </audio>
 
 <script>
+  // Play music only after page fully loads
+  window.addEventListener('load', function() {
+    var music = document.getElementById('bgmusic');
+    music.play().catch(function(){ console.log('Autoplay blocked'); });
+  });
+
   // Dynamic URL params
   const params = new URLSearchParams(window.location.search);
   document.getElementById('steamid').textContent = params.get('steam') || 'Guest';
   document.getElementById('map').textContent = params.get('map') || 'Unknown';
   document.getElementById('gamemode').textContent = params.get('gm') || 'Sandbox';
-  document.getElementById('players').textContent = params.get('players') || '0';
-
-  // Animate progress bar
-  const bar = document.getElementById('bar');
-  const loadingText = document.getElementById('loadingText');
-  const steps = ['Preparing world…','Mounting content…','Downloading resources…','Almost there…','Joining server…'];
-  let progress = 0, step = 0;
-  function tick(){
-    progress += Math.random()*5 + 2;
-    if(progress > (step+1)*20 && step < steps.length-1){ step++; loadingText.textContent = steps[step]; }
-    if(progress < 100){ bar.style.width = progress + '%'; requestAnimationFrame(tick); }
-    else { bar.style.width='100%'; loadingText.textContent='Joining server…'; }
-  }
-  tick();
-
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-</body>
-</html>
+  document.getElementById('players').textContent = params.get('pla
