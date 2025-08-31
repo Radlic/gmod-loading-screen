@@ -3,20 +3,25 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loading Radlic's Hangout Spot…</title>
+<title>Loading My GMod Server…</title>
 
 <!-- Preload resources for faster loading -->
-<link rel="preload" href="background.jpg" as="image">
-<link rel="preload" href="background.mp3" as="audio">
+<link rel="preload" href="https://radlic.github.io/gmod-loading-screen/background.jpg" as="image">
+<link rel="preload" href="https://radlic.github.io/gmod-loading-screen/background.mp3" as="audio">
 
 <style>
   body {
     margin:0; padding:0;
     font-family: Arial, sans-serif;
     color:#fff;
-    /* Background image */
-    background: url('background.jpg') no-repeat center center fixed;
+
+    /* Fallback gradient */
+    background: linear-gradient(120deg, #0f1115, #1b2230);
+
+    /* Background image with full URL */
+    background: url('https://radlic.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
     background-size: cover;
+
     display:flex; justify-content:center; align-items:center; height:100vh;
     flex-direction: column;
   }
@@ -50,7 +55,7 @@
 </head>
 <body>
 
-<h1 id="loadingText">Joining Radlic's Hangout Spot…</h1>
+<h1 id="loadingText">Joining My Radlic's Hangout Spot…</h1>
 
 <div class="grid">
   <div class="card">
@@ -67,7 +72,7 @@
     <h2>Staff</h2>
     <ul>
       <li>Radlic — Owner</li>
-      <li>ALDUMGAMES — SuperAdmin</li>
+      <li>ALDUMGAMES — Super Admin</li>
     </ul>
   </div>
 
@@ -85,9 +90,9 @@
 
 <footer>&copy; <span id="year"></span> Radlic's Hangout Spot • </footer>
 
-<!-- Your uploaded optimized background music -->
+<!-- Your uploaded music with full URL -->
 <audio preload="auto" autoplay loop>
-  <source src="background.mp3" type="audio/mp3">
+  <source src="https://radlic.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
 </audio>
 
 <script>
