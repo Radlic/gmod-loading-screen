@@ -10,17 +10,11 @@
     width:100%; height:100%;
     font-family: Arial, sans-serif;
     overflow:hidden;
-  }
-
-  /* Background gradient: black → dark red */
-  body {
     background: linear-gradient(120deg,#000000,#330000);
     color:#fff;
-    display:flex; justify-content:center; align-items:center;
-    flex-direction: column;
   }
 
-  /* Fullscreen overlay with fade-in */
+  /* Fullscreen overlay */
   #overlay {
     position:fixed; top:0; left:0; width:100%; height:100%;
     background: url('https://radlic.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
@@ -48,10 +42,10 @@
   .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; width:90%; max-width:1000px; }
 
   .card {
-    background: rgba(0,0,0,0.7); /* semi-transparent black */
+    background: rgba(0,0,0,0.7); 
     border-radius:10px; padding:15px;
     backdrop-filter: blur(4px);
-    border:1px solid #ff0000; /* red border */
+    border:1px solid #ff0000;
   }
 
   .card h2 { margin-top:0; font-size:1.2em; border-bottom:1px solid #ff0000; padding-bottom:5px; }
@@ -68,11 +62,13 @@
 </head>
 <body>
 
+<!-- Overlay with spinner -->
 <div id="overlay">
   <div class="spinner"></div>
   <h1>Loading Radlic's Hangout Spot…</h1>
 </div>
 
+<!-- Main content -->
 <div id="content" style="opacity:0; transition: opacity 1s;">
   <div class="grid">
     <div class="card">
@@ -108,25 +104,36 @@
   <footer>&copy; <span id="year"></span> Radlic's Hangout Spot • Join our Discord!</footer>
 </div>
 
-<audio id="bgmusic" loop>
+<!-- Music -->
+<audio id="bgmusic" loop preload="auto">
   <source src="https://radlic.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
+  <source src="https://radlic.github.io/gmod-loading-screen/background.ogg" type="audio/ogg">
+  Your browser does not support the audio element.
 </audio>
 
 <script>
-  // Wait for all assets to load
-  window.addEventListener('load', function(){
-    const overlay = document.getElementById('overlay');
-    const content = document.getElementById('content');
+  const overlay = document.getElementById('overlay');
+  const content = document.getElementById('content');
+  const music = document.getElementById('bgmusic');
 
-    // Play music
-    const music = document.getElementById('bgmusic');
-    music.play().catch(()=>console.log('Autoplay blocked'));
+  // Attempt to play music
+  function playMusic() {
+    music.play().catch(err => console.log('Autoplay blocked in GMod:', err));
+  }
 
+  window.addEventListener('load', () => {
     // Fade overlay and show content
     overlay.style.opacity = 0;
     setTimeout(()=>overlay.style.display='none',1000);
     content.style.opacity = 1;
+
+    // Try to play music
+    playMusic();
   });
+
+  // Play music on first user interaction (GMod requires this)
+  document.addEventListener('click', playMusic, { once: true });
+  document.addEventListener('keydown', playMusic, { once: true });
 
   // Dynamic URL params
   const params = new URLSearchParams(window.location.search);
