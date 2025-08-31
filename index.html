@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loading…</title>
+<title>Loading My GMod Server…</title>
 <style>
   body {
     margin:0; padding:0;
@@ -13,31 +13,78 @@
     display:flex; justify-content:center; align-items:center; height:100vh;
     flex-direction: column;
   }
-  h1 { margin:0 0 20px; }
-  .progress { width:80%; background:#222; height:20px; border-radius:10px; overflow:hidden; margin-bottom:10px; }
+
+  h1 { margin-bottom:20px; text-align:center; }
+
+  .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; width:90%; max-width:1000px; }
+
+  .card {
+    background: rgba(255,255,255,0.05);
+    border-radius:10px; padding:15px;
+    backdrop-filter: blur(4px);
+    border:1px solid rgba(255,255,255,0.1);
+  }
+
+  .card h2 { margin-top:0; font-size:1.2em; border-bottom:1px solid #00e0ff; padding-bottom:5px; }
+
+  .card ul { list-style:none; padding-left:0; margin-top:10px; }
+
+  .card ul li { margin-bottom:5px; }
+
+  .progress { width:100%; background:#222; height:15px; border-radius:10px; overflow:hidden; margin-top:10px; }
   .bar { width:0%; height:100%; background:#00e0ff; transition: width 0.2s; }
-  .info { margin-top:10px; text-align:center; }
+
+  footer { margin-top:20px; text-align:center; color:#ccc; font-size:0.9em; }
+
   audio { display:none; }
+
+  @media(max-width:600px){ .grid{grid-template-columns:1fr;} }
 </style>
 </head>
 <body>
 
-<h1>Joining My GMod Server…</h1>
+<h1 id="loadingText">Joining My GMod Server…</h1>
 
-<div class="progress"><div class="bar" id="bar"></div></div>
-<div class="info">
-  <p>Player: <span id="steamid"></span></p>
-  <p>Map: <span id="map"></span></p>
-  <p>Gamemode: <span id="gamemode"></span></p>
-  <p>Players: <span id="players"></span></p>
+<div class="grid">
+  <div class="card">
+    <h2>Rules</h2>
+    <ul>
+      <li>No prop spam or crashing</li>
+      <li>No RDM / NLR</li>
+      <li>Respect staff and players</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Staff</h2>
+    <ul>
+      <li>Alice — Admin</li>
+      <li>Bob — Moderator</li>
+      <li>Charlie — Helper</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <h2>Server Info</h2>
+    <ul>
+      <li>Player: <span id="steamid"></span></li>
+      <li>Map: <span id="map"></span></li>
+      <li>Gamemode: <span id="gamemode"></span></li>
+      <li>Players: <span id="players"></span></li>
+    </ul>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+  </div>
 </div>
 
+<footer>&copy; <span id="year"></span> MyServerName • Join our Discord!</footer>
+
+<!-- Remote MP3 music -->
 <audio autoplay loop>
-  <source src="background.mp3" type="audio/mpeg">
+  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
 </audio>
 
 <script>
-  // Read URL params
+  // Dynamic URL params
   const params = new URLSearchParams(window.location.search);
   document.getElementById('steamid').textContent = params.get('steam') || 'Guest';
   document.getElementById('map').textContent = params.get('map') || 'Unknown';
@@ -46,16 +93,19 @@
 
   // Animate progress bar
   const bar = document.getElementById('bar');
-  let progress = 0;
+  const loadingText = document.getElementById('loadingText');
   const steps = ['Preparing world…','Mounting content…','Downloading resources…','Almost there…','Joining server…'];
-  let step = 0;
+  let progress = 0, step = 0;
   function tick(){
     progress += Math.random()*5 + 2;
-    if(progress > (step+1)*20 && step < steps.length-1){ step++; document.querySelector('h1').textContent = steps[step]; }
+    if(progress > (step+1)*20 && step < steps.length-1){ step++; loadingText.textContent = steps[step]; }
     if(progress < 100){ bar.style.width = progress + '%'; requestAnimationFrame(tick); }
-    else { bar.style.width='100%'; document.querySelector('h1').textContent='Joining server…'; }
+    else { bar.style.width='100%'; loadingText.textContent='Joining server…'; }
   }
   tick();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
 </script>
+
 </body>
 </html>
