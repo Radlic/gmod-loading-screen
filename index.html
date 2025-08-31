@@ -12,7 +12,7 @@
 
     /* Fallback gradient first, then image via absolute HTTPS URL */
     background: linear-gradient(120deg,#0f1115,#1b2230),
-                url('https://username.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
+                url('https://radlic.github.io/gmod-loading-screen/background.jpg') no-repeat center center fixed;
     background-size: cover;
 
     display:flex; justify-content:center; align-items:center; height:100vh;
@@ -79,11 +79,11 @@
   </div>
 </div>
 
-<footer>&copy; <span id="year"></span> Radlic's Hangout Spot • </footer>
+<footer>&copy; <span id="year"></span> Radlic's Hangout Spot • Join our Discord!</footer>
 
 <!-- Audio using absolute HTTPS URL -->
 <audio id="bgmusic" loop>
-  <source src="https://username.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
+  <source src="https://radlic.github.io/gmod-loading-screen/background.mp3" type="audio/mpeg">
 </audio>
 
 <script>
@@ -98,4 +98,23 @@
   document.getElementById('steamid').textContent = params.get('steam') || 'Guest';
   document.getElementById('map').textContent = params.get('map') || 'Unknown';
   document.getElementById('gamemode').textContent = params.get('gm') || 'Sandbox';
-  document.getElementById('players').textContent = params.get('pla
+  document.getElementById('players').textContent = params.get('players') || '0';
+
+  // Animate progress bar
+  const bar = document.getElementById('bar');
+  const loadingText = document.getElementById('loadingText');
+  const steps = ['Preparing world…','Mounting content…','Downloading resources…','Almost there…','Joining server…'];
+  let progress = 0, step = 0;
+  function tick(){
+    progress += Math.random()*5 + 2;
+    if(progress > (step+1)*20 && step < steps.length-1){ step++; loadingText.textContent = steps[step]; }
+    if(progress < 100){ bar.style.width = progress + '%'; requestAnimationFrame(tick); }
+    else { bar.style.width='100%'; loadingText.textContent='Joining Radlic\'s Hangout Spot…'; }
+  }
+  tick();
+
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
