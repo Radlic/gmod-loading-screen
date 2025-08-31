@@ -3,13 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Loading My GMod Server…</title>
+<title>Loading Radlic's Hangout Spot…</title>
+
+<!-- Preload resources for faster loading -->
+<link rel="preload" href="background.jpg" as="image">
+<link rel="preload" href="background.mp3" as="audio">
+
 <style>
   body {
     margin:0; padding:0;
     font-family: Arial, sans-serif;
     color:#fff;
-    background: linear-gradient(120deg, #0f1115, #1b2230);
+    background: url('background.jpg') no-repeat center center fixed;
+    background-size: cover;
     display:flex; justify-content:center; align-items:center; height:100vh;
     flex-direction: column;
   }
@@ -19,7 +25,7 @@
   .grid { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px,1fr)); gap:16px; width:90%; max-width:1000px; }
 
   .card {
-    background: rgba(255,255,255,0.05);
+    background: rgba(0,0,0,0.5); /* semi-transparent black for readability */
     border-radius:10px; padding:15px;
     backdrop-filter: blur(4px);
     border:1px solid rgba(255,255,255,0.1);
@@ -78,9 +84,9 @@
 
 <footer>&copy; <span id="year"></span> MyServerName • Join our Discord!</footer>
 
-<!-- Remote MP3 music -->
-<audio autoplay loop>
-  <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+<!-- Your uploaded optimized background music -->
+<audio preload="auto" autoplay loop>
+  <source src="background.mp3" type="audio/mpeg">
 </audio>
 
 <script>
